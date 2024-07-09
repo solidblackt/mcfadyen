@@ -19,7 +19,20 @@ require([
 
         exit: function () {
             $('.gallery-placeholder').addClass("mobile-slider");
-            $('.mobile-slider').slick();
+            $('.mobile-slider').slick({
+                infinite: true,
+                mobileFirst: true,
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                dots: true,
+                arrows : false,
+                responsive: [
+                    {
+                        breakpoint: 767,
+                        settings: "unslick"
+                    }
+                ]
+            });
         }	
     });
 });
