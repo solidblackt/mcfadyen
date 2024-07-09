@@ -4,6 +4,12 @@
  */
 
 var config = {
+    map: {
+        '*': {
+            mobilegallery: 'Magento_Catalog/js/gallery'
+        }
+    },
+
     paths: {
         lazyloading: 'Magento_Catalog/js/jquery.lazy.min'
     }
