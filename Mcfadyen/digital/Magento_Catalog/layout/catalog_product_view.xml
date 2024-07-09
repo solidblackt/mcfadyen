@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+   <body>
+
+      <referenceContainer name="content">
+         <container name="productmain" htmlTag="div" htmlClass="product-main" before="-">
+            <container name="product-media" htmlTag="div" htmlClass="product-media"/>
+            <container name="product-info" htmlTag="div" htmlClass="product-content"/>
+            <container name="product-tabs" htmlTag="div" htmlClass="product-tab">
+               <block class="Magento\Catalog\Block\Product\View\Details" name="product.info.tabs" template="Magento_Catalog::product/view/details.phtml" after="product.info.media">
+                  <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.tab.description" template="Magento_Catalog::product/view/attribute.phtml" group="detailed_info">
+                     <arguments>
+                           <argument name="at_call" xsi:type="string">getDescription</argument>
+                           <argument name="at_code" xsi:type="string">description</argument>
+                           <argument name="css_class" xsi:type="string">description</argument>
+                           <argument name="at_label" xsi:type="string">none</argument>
+                           <argument name="title" translate="true" xsi:type="string">Details</argument>
+                           <argument name="sort_order" xsi:type="string">10</argument>
+                     </arguments>
+                  </block>
+                  <block class="Magento\Catalog\Block\Product\View" name="product.tabs.delivery" template="product/view/delivery.phtml" group="detailed_info" >
+                     <arguments>
+                        <argument translate="true" name="title" xsi:type="string">Delivery</argument>
+                        <argument name="sort_order" xsi:type="string">50</argument>
+                     </arguments>
+                  </block>
+                  <block class="Magento\Catalog\Block\Product\View" name="product.tabs.fit" template="product/view/delivery.phtml" group="detailed_info" >
+                     <arguments>
+                        <argument translate="true" name="title" xsi:type="string">Fit</argument>
+                        <argument name="sort_order" xsi:type="string">50</argument>
+                     </arguments>
+                  </block>
+                  <block class="Magento\Catalog\Block\Product\View" name="product.tabs.share" template="product/view/delivery.phtml" group="detailed_info" >
+                     <arguments>
+                        <argument translate="true" name="title" xsi:type="string">Share</argument>
+                        <argument name="sort_order" xsi:type="string">50</argument>
+                     </arguments>
+                  </block>
+               </block>
+            </container>
+         </container>
+      </referenceContainer>
+
+      <referenceContainer name="product.info.main">
+         <block class="Magento\Catalog\Block\Product\View" name="size.guide" template="product/view/size-guide.phtml" before="-" />
+      </referenceContainer>
+
+      <move element="product.info.media" destination="product-media" />
+      <move element="view.addto.wishlist" destination="product-media" before="-" />
+      <move element="page.main.title" destination="product-info" before="-" />
+      <move element="product.info.main" destination="product-info" after="-" />
+      <move element="product.info.overview" destination="product-info" after="page.main.title" />
+      
+
+      <referenceBlock name="reviews.tab" remove="true" />
+      <referenceBlock name="product.info.stock.sku" remove="true"/>
+      <referenceBlock name="view.addto.compare" remove="true" />
+      <referenceBlock name="product.info.review" remove="true" />
+      <referenceBlock name="product.info.details" remove="true" />
+   </body>
+</page>

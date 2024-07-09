@@ -1,0 +1,93 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/**
+ * Product media data template
+ *
+ * @var $block \Magento\Catalog\Block\Product\View\Gallery
+ */
+?>
+
+<?php
+$images = $block->getGalleryImages()->getItems();
+$mainImage = current(array_filter($images, function ($img) use ($block) {
+    return $block->isMainImage($img);
+}));
+
+if (!empty($images) && empty($mainImage)) {
+    $mainImage = $block->getGalleryImages()->getFirstItem();
+}
+
+$helper = $block->getData('imageHelper');
+$mainImageData = $mainImage ?
+    $mainImage->getData('medium_image_url') :
+    $helper->getDefaultPlaceholderUrl('image');
+
+?>
+
+<div class="gallery-placeholder _block-content-loading mobile-slider" data-gallery-role="gallery-placeholder">
+    <?php if($images) { ?>
+        <?php foreach($images as $image){ ?>
+            <div>
+                <img
+                    alt="main product photo"
+                    class="gallery-placeholder__image lazy"
+                    src="<?= /* @noEscape */ $mainImage->getData('medium_image_url') ?>"
+                    data-src="<?= /* @noEscape */ $image->getData('medium_image_url') ?>"
+                />
+            </div>
+        <?php } ?>
+        <?php } else { ?>
+            <img
+                alt="main product photo"
+                loading="lazy"
+                class="gallery-placeholder__image"
+                src="<?= /* @noEscape */ $helper->getDefaultPlaceholderUrl('image') ?>"
+            />
+    <?php } ?>
+</div>
+
+<script>
+    require([
+    'jquery',
+    'matchMedia',
+    'lazyloading'
+], function ($, mediaCheck) {
+   'use strict';
+    mediaCheck({
+        media: '(min-width: 768px)',
+        // Switch to Desktop Version
+        entry: function () {
+            $('.gallery-placeholder').removeClass("mobile-slider");
+            setTimeout(function() {
+                $('.gallery-placeholder__image').Lazy({
+                    effect: 'fadeIn'
+                });
+            } , 2000);
+        },
+
+        // Switch to Mobile Version
+        exit: function () {
+            $('.gallery-placeholder').addClass("mobile-slider");
+        }	
+    });
+});
+</script>
+
+<script type="text/x-magento-init">
+    {   
+        ".mobile-slider": {
+            "mage/gallery/gallery": {
+                "mixins":["magnifier/magnify"],
+                "magnifierOpts": <?= /* @noEscape */ $block->getMagnifier() ?>,
+                "data": <?= /* @noEscape */ $block->getGalleryImagesJson() ?>,
+                "options": <?= /* @noEscape */ $block->getGalleryOptions()->getOptionsJson() ?>,
+                "fullscreen": <?= /* @noEscape */ $block->getGalleryOptions()->getFSOptionsJson() ?>,
+                 "breakpoints": <?= /* @noEscape */ $block->getBreakpoints() ?>
+            }
+        }
+    }
+</script>

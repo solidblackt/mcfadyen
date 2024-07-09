@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="logo">
+            <arguments>
+                <argument name="logo_file" xsi:type="string">images/mflogo.svg</argument>
+                <argument name="logo_img_width" xsi:type="number">150</argument>
+                <argument name="logo_img_height" xsi:type="number">200</argument>
+            </arguments>
+        </referenceBlock>
+
+        <referenceContainer name="header-wrapper">
+            <container name="header-logo" htmlTag="div" htmlClass="header-logo" before="-" />
+            <container name="header-nav" htmlTag="div" htmlClass="header-nav"/>
+            <container name="header-topaction" htmlTag="div" htmlClass="header-actions" after="-">
+                <container name="header-links" htmlTag="ul" htmlClass="header-link">
+                    <block class="Magento\Customer\Block\Account\RegisterLink" name="register-link">
+                        <arguments>
+                            <argument name="label" xsi:type="string" translate="true"></argument>
+                        </arguments>
+                    </block>
+                </container>
+            </container>
+        </referenceContainer>
+
+        <move element="logo" destination="header-logo" />
+        <move element="navigation.sections" destination="header-nav" />
+        <move element="top.search" destination="header-topaction" before="-" />
+        <move element="minicart" destination="header-topaction" after="top.search" />
+
+        <referenceBlock name="header.panel.wrapper" remove="true" />
+        <referenceBlock name="authorization-link" remove="true" />
+        <referenceBlock name="top.links" remove="true" />
+        <referenceBlock name="advanced-search-link" remove="true" />
+        <referenceBlock name="catalog.compare.link" remove="true"/>
+        <referenceBlock name="breadcrumbs" remove="true" />
+        <referenceContainer name="footer" remove="true" />
+    </body>
+</page>
